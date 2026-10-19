@@ -10,7 +10,7 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 
 # Add local imports for model access
 try:
-    from core import get_model
+    from .core import get_model
     from langchain_core.messages import SystemMessage, HumanMessage
 except ImportError:
     get_model = None
@@ -344,7 +344,10 @@ async def generate_ui_synthesis(project_id, workflow_id, session_version, check_
             
         # PERSIST RAW OUTPUT for debugging
         try:
-            output_path = os.path.join(os.path.dirname(__file__), "stitch_raw_output.txt")
+            project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            artifacts_dir = os.path.join(project_root, "artifacts")
+            os.makedirs(artifacts_dir, exist_ok=True)
+            output_path = os.path.join(artifacts_dir, "stitch_raw_output.txt")
             with open(output_path, "w", encoding="utf-8") as f:
                 f.write(raw_content)
         except: pass

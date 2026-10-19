@@ -1,7 +1,6 @@
 import json
 import os
 import re
-import sys
 from operator import itemgetter
 from typing import Any, Dict, List
 
@@ -14,16 +13,12 @@ from langchain_openai.embeddings import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pydantic import BaseModel, Field
 
-MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
-if MODULE_DIR not in sys.path:
-    sys.path.insert(0, MODULE_DIR)
-
-from workflow_analysis import (
+from .workflow_analysis import (
     anchor_transcript_to_client_problem_scope,
     detect_alignment_issues,
     extract_client_intent_transcript,
 )
-from workflow_postprocessing import post_process_generated_workflows
+from .workflow_postprocessing import post_process_generated_workflows
 
 load_dotenv()
 
@@ -2030,49 +2025,49 @@ def merge_scope_review_payloads(existing_scope_review, new_scope_review):
 
 
 def _workflow_signature_tokens(workflow: Dict[str, Any]) -> set:
-    from workflow_postprocessing import workflow_signature_tokens
+    from .workflow_postprocessing import workflow_signature_tokens
 
     return workflow_signature_tokens(workflow)
 
 
 def _merge_workflow_pair(primary: Dict[str, Any], secondary: Dict[str, Any]) -> Dict[str, Any]:
-    from workflow_postprocessing import merge_workflow_pair
+    from .workflow_postprocessing import merge_workflow_pair
 
     return merge_workflow_pair(primary, secondary)
 
 
 def _dedupe_and_merge_similar_workflows(workflows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    from workflow_postprocessing import dedupe_and_merge_similar_workflows
+    from .workflow_postprocessing import dedupe_and_merge_similar_workflows
 
     return dedupe_and_merge_similar_workflows(workflows)
 
 
 def _transcript_indicates_multiple_initiatives(transcript: str) -> bool:
-    from workflow_postprocessing import transcript_indicates_multiple_initiatives
+    from .workflow_postprocessing import transcript_indicates_multiple_initiatives
 
     return transcript_indicates_multiple_initiatives(transcript)
 
 
 def _collapse_to_single_workflow_if_needed(workflows: List[Dict[str, Any]], transcript: str) -> List[Dict[str, Any]]:
-    from workflow_postprocessing import collapse_to_single_workflow_if_needed
+    from .workflow_postprocessing import collapse_to_single_workflow_if_needed
 
     return collapse_to_single_workflow_if_needed(workflows, transcript)
 
 
 def _transcript_has_explicit_sla_or_accuracy_targets(transcript: str) -> bool:
-    from workflow_postprocessing import transcript_has_explicit_sla_or_accuracy_targets
+    from .workflow_postprocessing import transcript_has_explicit_sla_or_accuracy_targets
 
     return transcript_has_explicit_sla_or_accuracy_targets(transcript)
 
 
 def _strip_ungrounded_numeric_targets(workflow: Dict[str, Any], transcript: str) -> Dict[str, Any]:
-    from workflow_postprocessing import strip_ungrounded_numeric_targets
+    from .workflow_postprocessing import strip_ungrounded_numeric_targets
 
     return strip_ungrounded_numeric_targets(workflow, transcript)
 
 
 def _normalize_validation_summary(workflow: Dict[str, Any]) -> Dict[str, Any]:
-    from workflow_postprocessing import normalize_validation_summary
+    from .workflow_postprocessing import normalize_validation_summary
 
     return normalize_validation_summary(workflow)
 

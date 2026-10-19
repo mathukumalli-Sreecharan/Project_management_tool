@@ -5,7 +5,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 
 # We retrieve shared AI components from core.py
-from core import get_model
+from .core import get_model
 
 
 def sanitize_mermaid(code: str) -> str:
